@@ -1,0 +1,32 @@
+name: Snyk Security Scan
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  snyk-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Snyk
+        run: npm install -g snyk
+
+      - name: Run Snyk Scan
+        run: snyk test --json > snyk-results.json
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: Format Results
+        run: |
+          echo "## Security Scan Report :lock:" > snyk-report.md
+          jq -r '.vulnerabilities[] | "- **" + .title + "**\n  - Package: " + .packageName + "\n  - Severity: " + .severity + "\n  - Description: " + .description' snyk-results.json >> snyk-report.md
+
+      - name: Post PR Comment
+        run: gh pr comment ${{ github.event.pull_request.number }} --body-file snyk-report.md
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
