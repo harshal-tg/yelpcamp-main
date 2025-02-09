@@ -19,7 +19,7 @@ jobs:
       - name: Run Snyk Scan
         run: snyk test --json > snyk-results.json
         env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN || '' }}
 
       - name: Format Results
         run: |
