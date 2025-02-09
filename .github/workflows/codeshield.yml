@@ -1,4 +1,4 @@
-name: Snyk Security Scan
+name: CodeShield Security Scan
 
 on:
   pull_request:
@@ -16,7 +16,7 @@ jobs:
       - name: Install Snyk
         run: npm install -g snyk
 
-      - name: Run Snyk Scan
+      - name: Running Codeshield Scan
         run: snyk test --json > snyk-results.json
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
