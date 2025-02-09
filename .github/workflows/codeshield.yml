@@ -1,4 +1,4 @@
-name: Snyk Security Scan
+name: CodeShield Security Scan
 
 on:
   pull_request:
@@ -16,10 +16,10 @@ jobs:
       - name: Install Snyk
         run: npm install -g snyk
 
-      - name: Run Snyk Scan
+      - name: Run Codeshield Scan
         run: snyk test --json > snyk-results.json
         env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN || '' }}
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: Format Results
         run: |
@@ -29,4 +29,4 @@ jobs:
       - name: Post PR Comment
         run: gh pr comment ${{ github.event.pull_request.number }} --body-file snyk-report.md
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
