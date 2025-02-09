@@ -13,6 +13,7 @@ module.exports.register = async (req, res, next) => {
             if (err) return next(err);
             req.flash('success', 'Welcome to Yelp Camp!');
             res.redirect('/campgrounds');
+            console.log("Test console");
         })
     } catch (e) {
         req.flash('error', e.message);
