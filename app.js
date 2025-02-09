@@ -37,6 +37,8 @@ const dbUrl = dburl;
 const mongoose = require("mongoose");
 mongoose.connect(dbUrl);
 
+console.log("Vulnerable code added");
+
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"))
 db.once("open", () => {
